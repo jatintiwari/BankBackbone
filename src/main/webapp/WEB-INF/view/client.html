@@ -43,35 +43,37 @@
 		<span style="font-size:xx-large; display:inline-block">
 			<a href="" class="btn-group-lg" style="text-decoration: none">	Lex Nimble Bank </a>
 		</span>
-			<a id="add" href="#tx" class="btn btn-primary" style="margin-bottom: 10px;margin-left: 50px;">Add</a>
+			<a id="add" href="#tx" class="btn btn-primary" style="margin-bottom: 10px;margin-left: 50px;">Deposit / Withdraw</a>
 			<a class="btn btn-warning" onClick="logout()" style="margin-bottom: 10px;margin-left: 50px;float:right;">Log out</a>
 		<div id="currentBal" style="display: inline-block;float: right;">
 	</div>
 	</script>
 
 	<script type="text/template" id="txFormTemplate">
-	<form class="form-horizontal " id="txForm"
-						style="margin-bottom: 0px; width: 500px; margin-left: 50px; margin-top: 25px;">
-						<div class="form-group">
-							<div class="input-group">
-								<div class="input-group-addon">$</div>
-								<input type="number" class="form-control input-lg"
-									id="idDepositAmount" placeholder="Amount" min="1" name="amount">
-									
-							</div>
-							<div><span class="help-block hidden"></span></div>
-							<div class="form-group" style="padding-left: 17px;">
-								<label class="radio-inline"> <input type="radio" name="txType" 
-										id="txType" value="withdraw">Withdraw</label> 
-							<label class="radio-inline"> <input type="radio" name="txType" 
-								id="txType" value="deposit"> Deposit</label><br> 
-							<span class="help-block hidden"></span>
-							</div>
-							<button type="submit" class="btn btn-primary" 
-								id="idDepositButton">Transfer cash</button>
-						</div>
-						<div><div class="alert alert-danger hidden" role="alert" id="error"></div></div>
-					</form>
+	<form class="form-horizontal " id="txForm" style="margin-bottom: 0px; 
+							width: 500px; margin-left: 50px; margin-top: 25px; border-top-width: 0px;">
+		<div class="form-group" style="margin-bottom: 0px;">
+				<div class="input-group">
+						<div class="input-group-addon">$</div>
+				<input type="number" class="form-control input-lg" id="idDepositAmount"
+							 placeholder="Amount" min="1" name="amount">		
+		</div>
+			<span class="help-block hidden"></span>
+		</div>			
+			<div class="form-group" style="padding-top: 15px;">	
+					<div class="input-group">
+							<input type="radio" name="txType" id="txType" value="withdraw"> <label>Savings</label> 
+							<input type="radio" name="txType" id="txType" value="deposit"> <label>Current </label><br> 
+					</div>
+				<span class="help-block hidden"></span></div>
+			</div>
+			<div class="form-group">
+					<div class="input-group">
+						<button type="submit" class="btn btn-primary" id="idDepositButton">Transfer cash</button>
+				</div>
+			</div>
+			<div><div class="alert alert-danger hidden" role="alert" id="error"></div></div>
+	</form>
 	</script>
 
 

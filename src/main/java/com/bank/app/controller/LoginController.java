@@ -45,7 +45,7 @@ public class LoginController {
 				if(loginUser.getUsername().equalsIgnoreCase(validateUser.getUsername())){
 					if(loginUser.getPassword().equalsIgnoreCase(validateUser.getPassword())){
 						if(!accountInfo.isActive()){
-							return "\"error\":{\"Username Inactive\"}";
+							return "{\"error\":\"User Inactive\"}";
 						}
 						User.currentUser=validateUser.getUsername();
 						User.currentUserType="client";
@@ -55,12 +55,12 @@ public class LoginController {
 						jsonArray.put(jsonObject);
 						return "{\"userType\":\"client\",\"targetUrl\":\"client\"}";
 					}else{
-						return "\"error\":{\"Password Invalid\"}";
+						return "{\"error\":\"Password Invalid\"}";
 					}
 				}
 			}
 			User.currentUserType=null;
-			return "\"error\":{\"Username Invalid\"}";
+			return "{\"error\":\"Username Invalid\"}";
 		} catch (Exception e) {
 			e.printStackTrace();
 			User.currentUserType=null;

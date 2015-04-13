@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="resources/css/bootstrap.css"></link>
+<title>Bank</title>
+</head>
+<body>
+	<div class="container">
+		<div class="container" style="padding-bottom: 10px; margin-bottom: 0px;">
+			<div style="display: inline" id="header"></div>
+		</div>
+		<div class="container"
+			style="width: 340px; height:425px; float: left; display: inline-block; 
+						overflow: auto; margin-top: 20px; border-right: gray dotted thin;">
+			<section id="listName"style=" font-size: 20px" ></section>
+			<table class="table table-hover">
+				<thead></thead>
+				<tbody id="listTable" style="width: 340px;">
+				</tbody>
+			</table>
+		</div>
+		<div class="container"
+			style="width: 800px; float: right; margin-top: 20px">
+			<div id="workspace"></div>
+		</div>
+	</div>
+
+
+	<script type="text/template" id="accountsListTemplate">
+
+<a class="btn" id='edit' style="text-decoration: none; font-size:20px;">
+<%= name%>&nbsp &nbsp<small><%=accountType%></small></a>
+
+</script>
+
+	<script type="text/template" id="accountCountTemplate">
+
+<h4><span><a id="total" class="btn btn-lg">Total :<%=total%></a> </span><span><a id="saving" class="btn btn-lg">Saving 
+			:<%=saving%></a></span><span><a id="current" class="btn btn-lg">Current :<%=current%></a></span></h4>
+
+</script>
+
+	<script type="text/template" id="adminHeaderTemplate">
+<div class="page-header">
+<span style="font-size:xx-large; display:inline-block">
+<a href="" class="btn-group-lg" style="text-decoration: none">	Lex Nimble Bank </a>
+</span>
+<a id="add" href="#add" class="btn btn-primary" style="margin-bottom: 10px;margin-left: 50px;">Add</a>
+<a class="btn btn-warning" onclick="logout()" style="margin-bottom: 10px;margin-left: 50px;float:right;">Log out</a>
+<div id="accountCount" style="display: inline-block;float: right;">
+</div>
+</script>
+
+
+	<script type="text/template" id="addAccountFormTemplate">
+		<form class="form-horizontal" id="addAccountForm">
+			<div class="form-group">
+				<div class="col-md-offset-3">
+					<p id="moduleName"
+						style="color: rgb(98, 158, 191); font-size: 30px">
+						<%=account.id ? 'Update':'Create Account' %>
+						</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="addAccountForm" class="col-sm-3 control-label">Name</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control " id="name"
+						placeholder="Full Name" name="name" value='<%=account.id ?  account.name :'' %>' <%=action? '':'readonly'%>> 
+						<span class="help-block hidden"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="addAccountForm" class="col-sm-3 control-label">Username</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control " id="username"
+						placeholder="Username" name="username" value='<%=account.id ?  account.username :'' %>' <%=account.id? 'readonly':''%>> 
+							<span class="help-block hidden" id="error-username"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="addAccountForm" class="col-sm-3 control-label">Password</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control " id="password"
+						placeholder="Password" name="password" value='<%=account.id ?  account.password :'' %>' <%=action? '':'readonly'%>> 
+					<span class="help-block hidden"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="addAccountForm" class="col-sm-3 control-label">Account
+					Type</label>
+				<div class="col-sm-4">
+					<input type="radio" name="accountType" id="accountType"
+						value="saving" <%=account.accountType==='saving' ? 'checked' :'' %> <%=action? '':'disabled'%>> Savings 
+						<input type="radio" name="accountType" id="accountType" value="current"
+						<%=account.accountType==='current' ? 'checked' :'' %> <%=action? '':'disabled'%>>
+					Current <br> 
+					<span class="help-block hidden"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="addAccountForm" class="col-sm-3 control-label">Amount</label>
+				<div class="col-sm-4">
+					<input type="number" class="form-control" id="currentBalance"
+						placeholder="Amount to deposit" name="currentBalance"
+						value='<%=account.id ?  account.currentBalance :'' %>' <%=action? '':'readonly'%>> 
+					<span class="help-block hidden"></span>
+				</div>
+			</div>
+			<div class="form-group">
+			<%if(action){%>
+				<button class="btn btn-default col-sm-offset-3" type="submit"><%=account.id? 'Update':'Add Account' %></button>
+				<a class="btn btn-danger col-sm" id="delete" class="delete" style="display:<%=action==="edit" ? '':'none' %> ">Delete</a>
+				<%}%>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-4">
+					<div class="alert alert-danger hidden" role="alert" ></div>
+				</div>
+			</div>
+		</form>
+</script>
+
+
+	<script src="resources/lib/jquery.js"></script>
+	<script src="resources/lib/underscore.js"></script>
+	<script src="resources/lib/backbone.js"></script>
+	<script src="resources/lib/serialize-object.js"></script>
+	<script src="resources/lib/backbone-validation-min.js"></script>
+	<script src="resources/lib/util.js"></script>
+	<script src="resources/model/account.js"></script>
+	<script src="resources/view/accounts.js"></script>
+	<script src="resources/router/adminRouter.js"></script>
+	<script src="resources/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="resources/css/bootstrap.css"></link>
+<title>Bank</title>
+</head>
+<body>
+	<div class="container">
+		<div class="container"
+			style="padding-bottom: 10px; margin-bottom: 0px;">
+			<div style="display: inline" id="header"></div>
+		</div>
+		<div class="container"
+			style="width: 800px; float: right; margin-top: 20px">
+			<div id="workspace">
+				<form class="form-horizontal" id="loginForm">
+					<div class="form-group">
+						<label for="loginForm" class="col-sm-2 control-label">Username</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="username"
+								placeholder="username" name="username"> <span
+								class="help-block hidden"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="loginForm" class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-6">
+							<input type="password" class="form-control" id="password"
+								placeholder="Password" name="password"> 
+								<span class="help-block hidden"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-4">
+							<button type="submit" class="btn btn-default" id="signin">Sign
+								in</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div class="alert alert-danger hidden" role="alert" id="error"></div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+
+	<script src="resources/lib/jquery.js"></script>
+	<script src="resources/lib/underscore.js"></script>
+	<script src="resources/lib/backbone.js"></script>
+	<script src="resources/lib/backbone-validation-min.js"></script>
+	<script src="resources/lib/serialize-object.js"></script>
+	<script src="resources/lib/util.js"></script>
+
+	<script>
+		var app= app|| {};
+		
+		app.Login= Backbone.Model.extend({
+			url:'login',
+			defaults:{
+				userType:null,
+				username:'',
+				password:''
+			},
+			
+			validation:{
+				username:{
+					required:true,
+				},
+				password:{
+					required:true,
+				},
+			}
+		});
+		
+		app.LoginView= Backbone.View.extend({
+			el:'#loginForm',
+			initialize:function(){
+				app.bindValidation(this);
+				
+			},
+			/*displayError:function(error){
+				console.log(error);
+			}, */
+			events:{
+				'submit':'submit'
+			},
+			submit:function(e){
+				e.preventDefault();
+				var login= $('#loginForm').serializeObject();
+				var _this=this;
+				console.log('Username: '+login.username);
+				this.model.set('username',login.username);
+				this.model.set('password',login.password);
+				this.model.save(null,{
+					success:function(model,response,options){
+						setTimeout(function(){
+							console.log("Model:"+JSON.stringify(model));
+							console.log("Response:"+JSON.stringify(response));
+							if(response.error)
+							$(".alert").html('<span >'+response.error+'</span>').removeClass('hidden').fadeIn(5000);
+							if(response.userType){
+									window.location.href=response.targetUrl;
+							}
+						},20);
+					},
+					error:function(model,response,options){
+						console.log('Error: '+JSON.stringify(model));
+						console.log('Error: '+JSON.stringify(response));
+					}
+				});
+			}
+		});
+		
+		app.loginRouter=Backbone.Router.extend({
+			routes:{
+				'':'login'
+			},
+			
+			login:function(){
+				$('#header').html("<div class='page-header'><span style='font-size:xx-large; display:inline-block'>Lex Nimble Bank</span></div>")
+				var loginView= new app.LoginView({model:new app.Login()});
+			}
+		});
+		
+		(function(){
+			var login= new app.loginRouter();
+			Backbone.history.start();
+		})();
+	
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="resources/css/bootstrap.css"></link>
+<title>Bank</title>
+</head>
+<body>
+	<div class="container">
+		<div class="container"
+			style="padding-bottom: 10px; margin-bottom: 0px;">
+			<div style="display: inline" id="header"></div>
+		</div>
+		<div class="container"
+			style="width: 340px; height: 425px; float: left; display: inline-block; 
+									overflow: auto;	margin-top: 20px; border-right: gray dotted thin;">
+			<section id="listName" style="font-size: 20px"></section>
+			<table class="table table-hover">
+				<thead></thead>
+				<tbody id="listTable" style="width: 340px;">
+				</tbody>
+			</table>
+		</div>
+		<div class="container"
+			style="width: 800px; float: right; margin-top: 20px">
+			<div id="workspace"></div>
+		</div>
+	</div>
+	
+	<script type="text/template" id='currentBalanceTemplate'>
+	<span style="font-size:20px">Current Balance : <%=currentBalance%></span>
+
+	</script>
+
+	<script type="text/template" id='txTemplate'>
+	<%if(id){%>
+	<h4> <span> Rs&nbsp<%=amount%></span><span> Tx&nbsp:&nbsp<%=txType%></span>
+													</h4><br/><small><%=date%></small><hr>
+	<%}%>
+	</script>
+
+	<script type="text/template" id="clientHeaderTemplate">
+	<div class="page-header">
+		<span style="font-size:xx-large; display:inline-block">
+			<a href="" class="btn-group-lg" style="text-decoration: none">	Lex Nimble Bank </a>
+		</span>
+			<a id="add" href="#tx" class="btn btn-primary" style="margin-bottom: 10px;margin-left: 50px;">Add</a>
+			<a class="btn btn-warning" onClick="logout()" style="margin-bottom: 10px;margin-left: 50px;float:right;">Log out</a>
+		<div id="currentBal" style="display: inline-block;float: right;">
+	</div>
+	</script>
+
+	<script type="text/template" id="txFormTemplate">
+	<form class="form-horizontal " id="txForm"
+						style="margin-bottom: 0px; width: 500px; margin-left: 50px; margin-top: 25px;">
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">$</div>
+								<input type="number" class="form-control input-lg"
+									id="idDepositAmount" placeholder="Amount" min="1" name="amount">
+									
+							</div>
+							<div><span class="help-block hidden"></span></div>
+							<div class="form-group" style="padding-left: 17px;">
+								<label class="radio-inline"> <input type="radio" name="txType" 
+										id="txType" value="withdraw">Withdraw</label> 
+							<label class="radio-inline"> <input type="radio" name="txType" 
+								id="txType" value="deposit"> Deposit</label><br> 
+							<span class="help-block hidden"></span>
+							</div>
+							<button type="submit" class="btn btn-primary" 
+								id="idDepositButton">Transfer cash</button>
+						</div>
+						<div><div class="alert alert-danger hidden" role="alert" id="error"></div></div>
+					</form>
+	</script>
+
+
+	<script src="resources/lib/jquery.js"></script>
+	<script src="resources/lib/underscore.js"></script>
+	<script src="resources/lib/backbone.js"></script>
+	<script src="resources/lib/backbone-validation-min.js"></script>
+	<script src="resources/lib/util.js"></script>
+	<script src="resources/lib/serialize-object.js"></script>
+	<script src="resources/model/tx.js"></script>
+	<script src="resources/view/client.js"></script>
+	<script src="resources/router/clientRouter.js"></script>
+
+
+</body>
+</html>

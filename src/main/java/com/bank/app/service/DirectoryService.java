@@ -3,6 +3,7 @@ package com.bank.app.service;
 import java.util.Collection;
 
 import com.bank.app.model.Account;
+import com.bank.app.model.Atm;
 import com.bank.app.model.Transactions;
 import com.bank.app.model.User;
 
@@ -23,6 +24,10 @@ public interface DirectoryService {
 	Collection<Transactions> getAllTx();
 
 	void saveTx(Transactions tx);
+
+	void createAtm(Atm atm);
+
+	Atm getAtm(Long atmNumber);
 
 
 }

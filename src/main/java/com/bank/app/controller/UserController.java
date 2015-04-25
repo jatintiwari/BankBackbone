@@ -40,6 +40,7 @@ public class UserController {
 					Account account = directoryService.getAccountFromUsername(User.currentUser);
 					jsonsObject= new JSONObject();
 					jsonsObject.put("currentBalance", account.getCurrentBalance());
+					jsonsObject.put("listEmpty", true);
 					jsonArray.put(jsonsObject);
 					return jsonArray.toString(); 
 				}

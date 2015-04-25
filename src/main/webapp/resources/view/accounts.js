@@ -79,12 +79,15 @@ app.AddAccountView= Backbone.View.extend({
 		this.model.set('currentBalance',addAccountForm.currentBalance);
 		this.model.set('username',addAccountForm.username);
 		this.model.set('password',addAccountForm.password);	
-		
+		if(addAccountForm.atmRequired){
+			this.model.set('atmRequired',true);
+		}
 		if(addAccountForm.accountType==='saving'){
 			this.model.set('minimumBalance',500);
 		}else{
 			this.model.set('minimumBalance',1000);
 		}
+		console.log(JSON.stringify(addAccountForm));
 		this.model.save(null,{
 			success:function(model,response,option){
 				setTimeout(function(){
@@ -161,17 +164,3 @@ app.AccountCountView=Backbone.View.extend({
 		$('#listTable').html(this.accountsView.render().el);
 	}
 });
-
-
-function logout(){
-	console.log("Logout");
-	$.ajax({
-		url:"logout",
-		type:"GET",
-		success:function(response){
-			console.log(JSON.stringify(response));
-			if(response)
-			window.location.href=window.location.origin+"/BankBackbone";
-		}
-	});
-};

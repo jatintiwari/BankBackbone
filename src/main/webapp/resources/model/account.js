@@ -12,7 +12,8 @@ app.Account= Backbone.Model.extend({
 		currentBalance:0,
 		username:null,
 		password:null,
-		active:false
+		active:false,
+		atmRequired:false
 	},
 	
 	validation:{

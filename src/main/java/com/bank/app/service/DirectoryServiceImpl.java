@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.app.DAO.AccountDAO;
+import com.bank.app.DAO.AtmDAO;
 import com.bank.app.DAO.UserDAO;
 import com.bank.app.model.Account;
+import com.bank.app.model.Atm;
 import com.bank.app.model.Transactions;
 import com.bank.app.model.User;
 
@@ -20,6 +22,9 @@ public class DirectoryServiceImpl implements DirectoryService {
 	
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	AtmDAO atmDAO;
 	
 	@Transactional
 	public void saveAccount(Account account) {
@@ -60,6 +65,15 @@ public class DirectoryServiceImpl implements DirectoryService {
 	@Transactional
 	public void saveTx(Transactions tx) {
 		userDAO.saveTx(tx);
+	}
+	
+	@Transactional
+	public void createAtm(Atm atm) {
+		atmDAO.createAtm(atm);
+	}
+	@Transactional
+	public Atm getAtm(Long atmNumber) {
+		return atmDAO.getAtm(atmNumber);
 	}
 
 }

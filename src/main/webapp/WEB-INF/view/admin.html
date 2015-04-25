@@ -108,6 +108,14 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label for="addAccountForm" class="col-sm-3 control-label">ATM</label>
+				<div class="col-sm-1">
+					<input type="checkbox" class="form-control" id="atmRequired" name="atmRequired"
+						<%=account.id ? 'disabled':''%> <%=account.atmRequired	? 'checked':'' %> > 
+					<span class="help-block hidden"></span>
+				</div>
+			</div>
+			<div class="form-group">
 			<%if(action){%>
 				<button class="btn btn-default col-sm-offset-3" type="submit"><%=account.id? 'Update':'Add Account' %></button>
 				<a class="btn btn-danger col-sm" id="delete" class="delete" style="display:<%=action==="edit" ? '':'none' %> ">Delete</a>

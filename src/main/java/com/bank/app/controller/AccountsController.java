@@ -2,6 +2,7 @@ package com.bank.app.controller;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Random;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.bank.app.model.Account;
+import com.bank.app.model.Atm;
 import com.bank.app.model.Transactions;
 import com.bank.app.model.User;
 import com.bank.app.service.DirectoryService;
@@ -28,9 +31,11 @@ public class AccountsController {
 	@Autowired
 	DirectoryService directoryService;
 
+
 	private ObjectMapper objectMapper;
 	private JSONArray jsonArray;
 	private JSONObject jsonObject;
+	private Atm atm= null;
 
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseStatus(value=HttpStatus.OK)
@@ -50,7 +55,9 @@ public class AccountsController {
 						jsonObject.put("password", account.getUser().getPassword());
 						jsonObject.put("minimumBalance", account.getMinimumBalance());
 						jsonObject.put("currentBalance", account.getCurrentBalance());
-						/*jsonObject.put("active", account.isActive());*/
+						if(account.isAtmRequired()){
+							jsonObject.put("atmRequired", account.isAtmRequired());
+						}
 						jsonArray.put(jsonObject);
 					}
 				}
@@ -79,11 +86,22 @@ public class AccountsController {
 				if(checkUser!=null && (account.getId()==null)){
 					return "{\"error\":\"username exists\"}";
 				}
-
 				user.setUserType("client");
 				account.setActive(true);
 				account.setUser(user);
 				directoryService.saveUser(user);
+				if(account.isAtmRequired()){
+					long atmNumber = (long)(Math.random()*Long.MAX_VALUE);
+					int atmPin = (int)(Math.random()*9000)+1000;
+					atm= new Atm();
+					System.out.println(atmNumber);
+					atm.setAtmNumber(atmNumber);
+					atm.setAtmPin(atmPin);
+					atm.setUser(user);
+					directoryService.createAtm(atm);
+					account.setAtm(atm);
+
+				}
 				directoryService.saveAccount(account);
 				return "{\"success\":\"account add\"}";
 			}

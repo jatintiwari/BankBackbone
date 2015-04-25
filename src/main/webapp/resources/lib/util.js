@@ -25,3 +25,16 @@ app.bindValidation= function(view){
 	});
 	
 };
+
+
+function logout(){
+	console.log("Logout");
+	$.ajax({
+		url:"logout",
+		type:"GET",
+		success:function(response){
+			if(response)
+			window.location.href=window.location.origin+"/BankBackbone";
+		}
+	});
+};

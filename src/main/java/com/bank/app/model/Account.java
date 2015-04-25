@@ -22,11 +22,28 @@ public class Account {
 	private Double minimumBalance;
 	private Double currentBalance;
 	private boolean active;
+	private boolean atmRequired;
 	
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="User")
 	private User user;
 	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="Atm")
+	private Atm atm;
+
+	public Atm getAtm() {
+		return this.atm;
+	}
+	public void setAtm(Atm atm) {
+		this.atm = atm;
+	}
+	public boolean isAtmRequired() {
+		return atmRequired;
+	}
+	public void setAtmRequired(boolean atmRequired) {
+		this.atmRequired = atmRequired;
+	}
 	
 	public Long getId() {
 		return id;

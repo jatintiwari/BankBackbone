@@ -3,6 +3,11 @@
 <head>
 <link rel="stylesheet" href="resources/css/bootstrap.css"></link>
 <title>Bank</title>
+<style type="text/css">
+a:{
+	outline:none;
+}
+</style>
 </head>
 <body>
 	<div class="container">
@@ -13,36 +18,14 @@
 		<div class="container"
 			style="width: 800px; float: right; margin-top: 20px">
 			<div id="workspace">
-				<form class="form-horizontal" id="loginForm">
-					<div class="form-group">
-						<label for="loginForm" class="col-sm-2 control-label">Username</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" id="username"
-								placeholder="username" name="username"> <span
-								class="help-block hidden"></span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="loginForm" class="col-sm-2 control-label">Password</label>
-						<div class="col-sm-6">
-							<input type="password" class="form-control" id="password"
-								placeholder="Password" name="password"> 
-								<span class="help-block hidden"></span>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-4">
-							<button type="submit" class="btn btn-default" id="signin">Sign
-								in</button>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-6">
-							<div class="alert alert-danger hidden" role="alert" id="error"></div>
-						</div>
-					</div>
-				</form>
-
+			<div style="padding:4px 4px 10px 4px">
+				<ul class="nav nav-tabs">
+					<li role="presentation" id="login"><a href="#login">Login</a></li>
+					<li role="presentation" id="atmLogin"><a href="#atm"> ATM</a></li>
+				</ul>
+			</div>
+				<div id="formArea"></div>
+			
 			</div>
 		</div>
 	</div>
@@ -54,83 +37,212 @@
 	<script src="resources/lib/backbone-validation-min.js"></script>
 	<script src="resources/lib/serialize-object.js"></script>
 	<script src="resources/lib/util.js"></script>
+	<script src="resources/model/atm.js"></script>
+	<script src="resources/view/atm.js"></script>
 
+	<script type="text/template" id="loginFormTemplate">
+	<form class="form-horizontal" id="loginForm">
+						<div class="form-group">
+							<label for="loginForm" class="col-md-2 control-label">Username</label>
+							<div class="col-md-6">
+								<input type="text" class="form-control" id="username"
+									placeholder="username" name="username"> <span
+									class="help-block hidden"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="loginForm" class="col-md-2 control-label">Password</label>
+							<div class="col-md-6">
+								<input type="password" class="form-control" id="password"
+									placeholder="Password" name="password"> <span
+									class="help-block hidden"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-4">
+								<button type="submit" class="btn btn-default" id="signin">Sign
+									in</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-offset-2 col-md-6">
+								<div class="alert alert-danger hidden" role="alert" id="error"></div>
+							</div>
+						</div>
+					</form>
+	</script>
+
+	<script type="text/template" id="atmLoginFormTemplate">
+				<form class="form-horizontal" id="atmLoginForm">
+					<div class="form-group">
+						<label for="loginForm" class="col-sm-2 control-label">Card
+							No.</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="atmNumber"
+								placeholder="Atm Number" name="atmNumber"> 
+							<span class="help-block hidden"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="loginForm" class="col-sm-2 control-label">Pin</label>
+						<div class="col-sm-6">
+							<input type="password" class="form-control" id="atmPin"
+								placeholder="Pin" name="atmPin">
+							<span class="help-block hidden"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-4">
+							<button type="submit" class="btn btn-default" id="checkin">Check
+								in</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div class="alert alert-danger hidden" role="alert" id="error"></div>
+						</div>
+					</div>
+				</form>
+		</script>
 	<script>
-		var app= app|| {};
-		
-		app.Login= Backbone.Model.extend({
-			url:'login',
-			defaults:{
-				userType:null,
-				username:'',
-				password:''
+		var app = app || {};
+
+		app.Login = Backbone.Model.extend({
+			url : 'login',
+			defaults : {
+				userType : null,
+				username : '',
+				password : ''
 			},
-			
-			validation:{
-				username:{
-					required:true,
+
+			validation : {
+				username : {
+					required : true,
 				},
-				password:{
-					required:true,
+				password : {
+					required : true,
 				},
 			}
 		});
-		
-		app.LoginView= Backbone.View.extend({
-			el:'#loginForm',
-			initialize:function(){
+
+	/* 	app.AtmLogin = Backbone.Model.extend({
+			url : 'atmLogin',
+			defaults : {
+				atmNumber : null,
+				atmPin : null
+			},
+			
+			validation : {
+				atmNumber : {
+					required : true,
+				},
+				atmPin : {
+					required : true,
+					length : 4,
+					pattern:'numbers'
+				},
+			}
+		}); 
+
+		app.AtmLoginView = Backbone.View.extend({
+			el : '#atmLoginForm',
+			initialize : function() {
 				app.bindValidation(this);
-				
 			},
-			/*displayError:function(error){
-				console.log(error);
-			}, */
-			events:{
-				'submit':'submit'
+			
+			events : {
+				'submit' : 'submit'
 			},
-			submit:function(e){
+
+			submit : function(e) {
+				console.log('check in');
 				e.preventDefault();
-				var login= $('#loginForm').serializeObject();
-				var _this=this;
-				console.log('Username: '+login.username);
-				this.model.set('username',login.username);
-				this.model.set('password',login.password);
+				var atmLogin= $('#atmLoginForm').serializeObject();
+				console.log(JSON.stringify(atmLogin));
+				this.model.set('atmNumber',atmLogin.atmNumber);
+				this.model.set('atmPin',atmLogin.atmPin);
 				this.model.save(null,{
-					success:function(model,response,options){
-						setTimeout(function(){
-							console.log("Model:"+JSON.stringify(model));
-							console.log("Response:"+JSON.stringify(response));
-							if(response.error)
-							$(".alert").html('<span >'+response.error+'</span>').removeClass('hidden').fadeIn(5000);
-							if(response.userType){
-									window.location.href=response.targetUrl;
-							}
-						},20);
-					},
-					error:function(model,response,options){
-						console.log('Error: '+JSON.stringify(model));
-						console.log('Error: '+JSON.stringify(response));
+					success:function(model,response,option){
+						if(response.success==='true'){
+							console.log(response.error);
+							window.location.href = response.targetUrl;
+						}else if(response.error){
+							$(".alert").html('<span >'+ response.error+ '</span>').removeClass('hidden').fadeIn(5000);
+						}
 					}
 				});
 			}
-		});
-		
-		app.loginRouter=Backbone.Router.extend({
-			routes:{
-				'':'login'
+
+		});*/
+
+		app.LoginView = Backbone.View.extend({
+			el : '#loginForm',
+			initialize : function() {
+				app.bindValidation(this);
 			},
-			
-			login:function(){
-				$('#header').html("<div class='page-header'><span style='font-size:xx-large; display:inline-block'>Lex Nimble Bank</span></div>")
-				var loginView= new app.LoginView({model:new app.Login()});
+			events : {
+				'submit' : 'submit'
+			},
+			submit : function(e) {
+				e.preventDefault();
+				var login = $('#loginForm').serializeObject();
+				var _this = this;
+				console.log('Username: ' + login.username);
+				this.model.set('username', login.username);
+				this.model.set('password', login.password);
+				this.model.save(null,{
+						success : function(model, response,options) {
+								setTimeout(function() {
+									console.log("Model:"+ JSON.stringify(model));
+									console.log("Response:"+ JSON.stringify(response));
+									if (response.error)
+										$(".alert").html('<span >'+ response.error+ '</span>').removeClass('hidden').fadeIn(5000);
+									if (response.userType) {
+										window.location.href = response.targetUrl;
+									}
+								}, 20);
+						},
+						error : function(model, response,options) {
+							console.log('Error: '+ JSON.stringify(model));
+							console.log('Error: '+ JSON.stringify(response));
+						}
+					});
 			}
 		});
-		
-		(function(){
-			var login= new app.loginRouter();
+
+		app.loginRouter = Backbone.Router.extend({
+			routes : {
+				'' : 'login',
+				'login':'login',
+				'atm':'atm'
+			},
+
+			login : function() {
+				$('#header').html("<div class='page-header'><span style='font-size:xx-large; display:inline-block'>Lex Nimble Bank</span></div>");
+				$('#formArea').html(_.template($('#loginFormTemplate').html()));
+				$('#login').addClass('active');
+				$('#atmLogin').removeClass('active');
+				var loginView = new app.LoginView({
+					model : new app.Login()
+				});
+			},
+			atm:function(){
+				console.log('atm');
+				$('#header').html("<div class='page-header'><span style='font-size:xx-large; display:inline-block'>Lex Nimble Bank</span></div>");
+				$('#formArea').html(_.template($('#atmLoginFormTemplate').html()));
+				$('#login').removeClass('active');
+				$('#atmLogin').addClass('active');
+				var atmLoginView= new app.AtmLoginView({
+					model: new app.AtmLogin()
+				});
+				
+			}
+		});
+
+		(function() {
+			var login = new app.loginRouter();
 			Backbone.history.start();
 		})();
-	
 	</script>
 
 

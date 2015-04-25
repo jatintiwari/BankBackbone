@@ -79,11 +79,15 @@ public class LoginController {
 	public String clientView(){
 		return "client";
 	}
+	@RequestMapping(value="atm", method= RequestMethod.GET)
+	public String atmView(){
+		return "atm";
+	}
 	
 	@RequestMapping(value="logout", method=RequestMethod.GET)
 	public @ResponseBody String logout(){
 		User.currentUserType=null;
 		System.out.println("Logout");
-		return "\"targetUrl\":\"BankBackbone\"";
+		return "{\"targetUrl\":\"BankBackbone\"}";
 	}
 }

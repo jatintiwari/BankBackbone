@@ -20,7 +20,7 @@ app.TxView= Backbone.View.extend({
 });
 
 app.TrasactionsView= Backbone.View.extend({
-	tagName:'td',
+//	tagName:'td',
 	initialize:function(){
 		
 	},
@@ -79,7 +79,6 @@ app.CurrentBalanceView= Backbone.View.extend({
 	el:'#currentBal',
 	template:_.template($('#currentBalanceTemplate').html()),
 	initialize:function(){
-		
 		this.render();
 	},
 	render:function(){
@@ -90,14 +89,4 @@ app.CurrentBalanceView= Backbone.View.extend({
 	}
 });
 
-function logout(){
-	console.log("Logout");
-	$.ajax({
-		url:"logout",
-		type:"GET",
-		success:function(response){
-			if(response)
-			window.location.href=window.location.origin+"/BankBackbone";
-		}
-	});
-};
+

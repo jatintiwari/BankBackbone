@@ -56,17 +56,17 @@ app.AddAccountView= Backbone.View.extend({
 		var target= event.target;
 		var usernameVal= $.trim(target.value);
 		if(usernameVal){
-			this.checkUsername=accounts.where({username:usernameVal});
-			if(this.checkUsername.length){
-				if(this.model.get('username')== usernameVal){
-					$('#error-username').html('<section style="color:green">Current username</section>').removeClass('hidden');
-					
-				}else{
-					$('#error-username').html('<section style="color:red">Username exist, Please enter another</section>').sremoveClass('hidden');
+			this.CheckUsername=Backbone.Model.extend({url:'accounts/checkUsername'});
+			this.checkUsername= new this.CheckUsername({username:usernameVal});
+			this.checkUsername.save(null,{
+				success:function(model,response,option){
+					if(response.success){
+						$('#error-username').html('<section style="color:green">'+response.success+'</section>').removeClass('hidden');
+					}else if(response.error){
+						$('#error-username').html('<section style="color:red">'+response.error+'</section>').removeClass('hidden');
+					}
 				}
-			}else{
-				$('#error-username').html('<section style="color:green">username available</section>').removeClass('hidden');
-			}
+			});
 		}else{
 			$('#error-username').html('');
 		}

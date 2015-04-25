@@ -24,9 +24,9 @@ app.AtmLoginView = Backbone.View.extend({
 		this.model.save(null,{
 			success:function(model,response,option){
 				if(response.success==='true'){
-					console.log(response.error);
 					window.location.href = response.targetUrl;
 				}else if(response.error){
+					console.log(response.error);
 					$(".alert").html('<span >'+ response.error+ '</span>').removeClass('hidden').fadeIn(5000);
 				}
 			}

@@ -125,56 +125,6 @@ a:{
 			}
 		});
 
-	/* 	app.AtmLogin = Backbone.Model.extend({
-			url : 'atmLogin',
-			defaults : {
-				atmNumber : null,
-				atmPin : null
-			},
-			
-			validation : {
-				atmNumber : {
-					required : true,
-				},
-				atmPin : {
-					required : true,
-					length : 4,
-					pattern:'numbers'
-				},
-			}
-		}); 
-
-		app.AtmLoginView = Backbone.View.extend({
-			el : '#atmLoginForm',
-			initialize : function() {
-				app.bindValidation(this);
-			},
-			
-			events : {
-				'submit' : 'submit'
-			},
-
-			submit : function(e) {
-				console.log('check in');
-				e.preventDefault();
-				var atmLogin= $('#atmLoginForm').serializeObject();
-				console.log(JSON.stringify(atmLogin));
-				this.model.set('atmNumber',atmLogin.atmNumber);
-				this.model.set('atmPin',atmLogin.atmPin);
-				this.model.save(null,{
-					success:function(model,response,option){
-						if(response.success==='true'){
-							console.log(response.error);
-							window.location.href = response.targetUrl;
-						}else if(response.error){
-							$(".alert").html('<span >'+ response.error+ '</span>').removeClass('hidden').fadeIn(5000);
-						}
-					}
-				});
-			}
-
-		});*/
-
 		app.LoginView = Backbone.View.extend({
 			el : '#loginForm',
 			initialize : function() {

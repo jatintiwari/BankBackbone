@@ -177,6 +177,24 @@ public class AccountsController {
 		return "{\"error\":\"userType-undefined\"}";
 	}
 
+	@RequestMapping(value="checkUsername", method=RequestMethod.POST)
+	public @ResponseBody String checkUsername(@RequestBody String username){
+		if(User.currentUserType.equalsIgnoreCase("admin")){
+			try{
+				objectMapper= new ObjectMapper();
+				User checkUsername= objectMapper.readValue(username, User.class);
+				User user= directoryService.getUser(checkUsername.getUsername());
+				if(user!=null){
+					return "{\"error\":\"Username exist, Please enter another\"}";
+				}
+				return "{\"success\":\"Username Available\"}";
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return "{\"error\":\"userType-undefined\"}";
+	}
+
 
 
 }

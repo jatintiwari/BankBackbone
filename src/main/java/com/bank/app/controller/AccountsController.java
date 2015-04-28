@@ -55,9 +55,12 @@ public class AccountsController {
 						jsonObject.put("password", account.getUser().getPassword());
 						jsonObject.put("minimumBalance", account.getMinimumBalance());
 						jsonObject.put("currentBalance", account.getCurrentBalance());
-						if(account.isAtmRequired()){
+						if(account.getAtm()!=null){
 							jsonObject.put("atmRequired", account.isAtmRequired());
-						}
+							jsonObject.put("atmNumber", account.getAtm().getAtmNumber());
+						}else{
+				              jsonObject.put("atmNumber", "NA");
+			            }
 						jsonArray.put(jsonObject);
 					}
 				}

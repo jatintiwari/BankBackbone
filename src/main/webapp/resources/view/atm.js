@@ -121,4 +121,4 @@ app.ChangePin=Backbone.View.extend({
 	newPin:function(){
 		console.log(' new pin has changed');
 	}
-})
+});

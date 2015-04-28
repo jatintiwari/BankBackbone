@@ -1,6 +1,8 @@
 /**
  * 
  */
+
+
 var app = app || {};
 
 app.AtmLogin = Backbone.Model.extend({
@@ -12,11 +14,13 @@ app.AtmLogin = Backbone.Model.extend({
 
 	validation : {
 		atmNumber : {
-			required : true|false,
+			required : true,
+			pattern:'digits'
 		},
 		atmPin : {
 			required : true,
 			length : 4,
+			pattern:'digits'
 		},
 	}
 });

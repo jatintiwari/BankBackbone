@@ -113,7 +113,7 @@ app.ChangePin=Backbone.View.extend({
 		this.model.save(null,{
 			success:function(){
 				console.log('pin changed');
-				$('#myModal').toggle('hide');
+				$("[data-dismiss='modal']").click();
 			}
 		});
 		

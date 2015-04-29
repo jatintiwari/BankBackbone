@@ -9,10 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
+@SQLDelete(sql="UPDATE Account SET active=0 WHERE id= ?;")
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Account {
+public class Account implements Comparable<Account> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -86,6 +88,13 @@ public class Account {
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	//let's sort the account based on id in descending order
+    //returns a negative integer, zero, or a positive integer as this account id
+    //is less than, equal to, or greater than the specified object.
+	public int compareTo(Account account) {
+		return(int)( account.id-this.id );
 	}
 
 }

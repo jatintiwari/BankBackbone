@@ -1,6 +1,7 @@
 package com.bank.app.DAO;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -15,7 +16,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 
-	public Collection<Account> accountList() {
+	public List<Account> accountList() {
 		return sessionFactory.getCurrentSession().createQuery("from Account").list();
 	}
 
@@ -25,7 +26,7 @@ public class AccountDAOImpl implements AccountDAO {
 
 
 	public Account getAccount(Long id) {
-		return (Account)sessionFactory.getCurrentSession().get(Account.class, id);
+		return (Account)sessionFactory.getCurrentSession().load(Account.class, id);
 	}
 
 	public Account getAccountFromUsername(String username) {
@@ -38,6 +39,11 @@ public class AccountDAOImpl implements AccountDAO {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public void deactivateAccount(Account account) {
+		sessionFactory.getCurrentSession().delete(account);
+		
 	}
 	
 	

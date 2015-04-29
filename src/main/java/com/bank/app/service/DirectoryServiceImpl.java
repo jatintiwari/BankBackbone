@@ -1,6 +1,7 @@
 package com.bank.app.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class DirectoryServiceImpl implements DirectoryService {
 	}
 	
 	@Transactional
-	public Collection<Account> accountList() {
+	public List<Account> accountList() {
 		return accountDAO.accountList();
 	}
 	
@@ -74,6 +75,16 @@ public class DirectoryServiceImpl implements DirectoryService {
 	@Transactional
 	public Atm getAtm(Long atmNumber) {
 		return atmDAO.getAtm(atmNumber);
+	}
+	
+	@Transactional
+	public void deactivateAccount(Account account) {
+		accountDAO.deactivateAccount(account);
+		
+	}
+	@Transactional
+	public List<Transactions> getInitTxList() {
+		return userDAO.getInitTxList();
 	}
 
 }

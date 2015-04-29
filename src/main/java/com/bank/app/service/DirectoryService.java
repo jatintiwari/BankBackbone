@@ -1,6 +1,7 @@
 package com.bank.app.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.bank.app.model.Account;
 import com.bank.app.model.Atm;
@@ -11,7 +12,7 @@ public interface DirectoryService {
 
 	void saveAccount(Account account);
 
-	Collection<Account> accountList();
+	List<Account> accountList();
 
 	Account getAccount(Long id);
 
@@ -28,6 +29,10 @@ public interface DirectoryService {
 	void createAtm(Atm atm);
 
 	Atm getAtm(Long atmNumber);
+
+	void deactivateAccount(Account account);
+
+	List<Transactions> getInitTxList();
 
 
 }

@@ -2,6 +2,7 @@ package com.bank.app.controller;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.bank.app.model.Account;
 import com.bank.app.model.Transactions;
@@ -44,9 +46,10 @@ public class UserController {
 					jsonArray.put(jsonsObject);
 					return jsonArray.toString(); 
 				}
+				int i=0;
 				for(Transactions tx:allTx){
 					jsonsObject= new JSONObject();
-					jsonsObject.put("id", tx.getId());
+					jsonsObject.put("id", i++);
 					jsonsObject.put("txType", tx.getTxType());
 					jsonsObject.put("date", tx.getDate());
 					jsonsObject.put("amount", tx.getAmount());
@@ -63,6 +66,12 @@ public class UserController {
 		else{
 			return null;
 		}
+	}
+	
+	@RequestMapping(value="initTx",method=RequestMethod.GET)
+	public @ResponseBody String getIntialTxList(){
+		List<Transactions> initTx=directoryService.getInitTxList();
+		return null; 
 	}
 
 	@RequestMapping(value="tx",method=RequestMethod.POST)

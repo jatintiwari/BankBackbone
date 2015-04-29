@@ -1,9 +1,14 @@
 package com.bank.app.DAO;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +38,11 @@ public class UserDAOImpl implements UserDAO {
 
 	public void saveTx(Transactions tx) {
 		sessionFactory.getCurrentSession().save(tx);
+	}
+
+	public List<Transactions> getInitTxList() {
+		Criteria criteria= sessionFactory.getCurrentSession().createCriteria(Transactions.class);
+		return criteria.add(Restrictions.sizeLe("txType", 5)).list();
 	}
 
 	

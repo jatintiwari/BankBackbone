@@ -1,7 +1,9 @@
 package com.bank.app.controller;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,6 +24,7 @@ import com.bank.app.model.Atm;
 import com.bank.app.model.Transactions;
 import com.bank.app.model.User;
 import com.bank.app.service.DirectoryService;
+import com.bank.app.util.AccountListComparator;
 
 
 @Controller
@@ -30,6 +33,9 @@ public class AccountsController {
 
 	@Autowired
 	DirectoryService directoryService;
+	
+	@Autowired
+	AccountListComparator accountListComparator;
 
 
 	private ObjectMapper objectMapper;
@@ -42,7 +48,8 @@ public class AccountsController {
 	public @ResponseBody String accountList(){
 		try {
 			if(User.currentUserType.equalsIgnoreCase("admin")){
-				Collection<Account> accountsList= directoryService.accountList();
+				List<Account> accountsList= directoryService.accountList();
+				Collections.sort(accountsList);
 				jsonArray= new JSONArray();
 				for(Account account: accountsList){
 					if(account.isActive()){
@@ -173,8 +180,7 @@ public class AccountsController {
 	public @ResponseBody String deleteAccount(@PathVariable("id") Long id){
 		if(User.currentUserType.equalsIgnoreCase("admin")){
 			Account account= directoryService.getAccount(id);
-			account.setActive(false);
-			directoryService.saveAccount(account);
+			directoryService.deactivateAccount(account);
 			return "{\"success\":\"updated\"}";
 		}
 		return "{\"error\":\"userType-undefined\"}";

@@ -24,7 +24,7 @@ import com.bank.app.model.Atm;
 import com.bank.app.model.Transactions;
 import com.bank.app.model.User;
 import com.bank.app.service.DirectoryService;
-import com.bank.app.util.AccountListComparator;
+import com.bank.app.util.TxListDateComparator;
 
 
 @Controller
@@ -35,7 +35,7 @@ public class AccountsController {
 	DirectoryService directoryService;
 	
 	@Autowired
-	AccountListComparator accountListComparator;
+	TxListDateComparator accountListComparator;
 
 
 	private ObjectMapper objectMapper;
@@ -141,8 +141,10 @@ public class AccountsController {
 				Account readAccount= objectMapper.readValue(accountInfo, Account.class);
 				Account account= directoryService.getAccount(id);
 				User user = account.getUser();
+				Atm atm= account.getAtm();
 				user.setPassword(readUser.getPassword());
 				readAccount.setActive(true);
+				readAccount.setAtm(atm);
 				System.out.println(readAccount.getCurrentBalance()+";;;;;;;"+account.getCurrentBalance());
 				System.out.println(readAccount.getCurrentBalance().equals(account.getCurrentBalance()));
 				if(!readAccount.getCurrentBalance().equals(account.getCurrentBalance())){

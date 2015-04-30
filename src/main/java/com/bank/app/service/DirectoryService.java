@@ -22,7 +22,7 @@ public interface DirectoryService {
 
 	void saveUser(User user);
 
-	Collection<Transactions> getAllTx();
+	List<Transactions> getAllTx();
 
 	void saveTx(Transactions tx);
 

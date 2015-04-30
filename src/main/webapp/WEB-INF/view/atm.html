@@ -121,6 +121,7 @@
 								<tr>
 									<td>Tx No.</td>
 									<td>Date</td>
+									<td>Tx Type</td>
 									<td>Amount</td>
 								</tr>
 							</thead>
@@ -135,7 +136,7 @@
 
 	<script type="text/template" id="txTableBodyTemplate">
 	<%if(id){%>
-		<td><%=id%></td><td><%=date%></td><td><%=amount%></td>
+		<td><%=id%></td><td><%=date%></td><td><%=txType%></td><td><%=amount%></td>
 	<%}%>
 	</script>
 

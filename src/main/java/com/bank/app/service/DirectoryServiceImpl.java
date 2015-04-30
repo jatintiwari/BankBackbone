@@ -59,7 +59,7 @@ public class DirectoryServiceImpl implements DirectoryService {
 	}
 	
 	@Transactional
-	public Collection<Transactions> getAllTx() {
+	public List<Transactions> getAllTx() {
 		return userDAO.getAllTx();
 	}
 

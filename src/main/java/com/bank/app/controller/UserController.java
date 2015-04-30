@@ -1,6 +1,7 @@
 package com.bank.app.controller;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import com.bank.app.model.Account;
 import com.bank.app.model.Transactions;
 import com.bank.app.model.User;
 import com.bank.app.service.DirectoryService;
+import com.bank.app.util.TxListDateComparator;
 
 
 @Controller
@@ -26,6 +27,9 @@ public class UserController {
 
 	@Autowired
 	DirectoryService directoryService;
+	
+	@Autowired
+	TxListDateComparator txListDateComparator;
 
 	private ObjectMapper objectMapper;
 	private JSONObject jsonsObject;
@@ -37,7 +41,8 @@ public class UserController {
 			try{
 				jsonArray= new JSONArray();
 				System.out.println("List for "+User.currentUser);
-				Collection<Transactions> allTx= directoryService.getAllTx();
+				List<Transactions> allTx= directoryService.getAllTx();
+				
 				if(allTx.isEmpty()){
 					Account account = directoryService.getAccountFromUsername(User.currentUser);
 					jsonsObject= new JSONObject();
@@ -46,10 +51,11 @@ public class UserController {
 					jsonArray.put(jsonsObject);
 					return jsonArray.toString(); 
 				}
-				int i=0;
+				int i=1;
+				Collections.sort(allTx);
 				for(Transactions tx:allTx){
 					jsonsObject= new JSONObject();
-					jsonsObject.put("id", i++);
+					jsonsObject.put("id",i++);
 					jsonsObject.put("txType", tx.getTxType());
 					jsonsObject.put("date", tx.getDate());
 					jsonsObject.put("amount", tx.getAmount());
@@ -66,12 +72,6 @@ public class UserController {
 		else{
 			return null;
 		}
-	}
-	
-	@RequestMapping(value="initTx",method=RequestMethod.GET)
-	public @ResponseBody String getIntialTxList(){
-		List<Transactions> initTx=directoryService.getInitTxList();
-		return null; 
 	}
 
 	@RequestMapping(value="tx",method=RequestMethod.POST)

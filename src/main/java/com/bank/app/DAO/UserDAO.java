@@ -12,7 +12,7 @@ public interface UserDAO {
 	
 	void addUser(User user);
 
-	Collection<Transactions> getAllTx();
+	List<Transactions> getAllTx();
 
 	void saveTx(Transactions tx);
 

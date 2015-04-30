@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bank.app.model.Account;
+import com.bank.app.model.Atm;
 import com.bank.app.model.User;
 import com.bank.app.service.DirectoryService;
 
@@ -24,6 +25,26 @@ public class LoginController {
 	@Autowired
 	DirectoryService directoryService;
 	
+	
+	@RequestMapping(value="atmLogin", method=RequestMethod.POST)
+	public @ResponseBody String atmLogin(@RequestBody String atmLogin){
+		objectMapper= new ObjectMapper();
+		try{
+			System.out.println(atmLogin);
+			Atm atmLoginInfo= objectMapper.readValue(atmLogin, Atm.class);	
+			Atm atm= directoryService.getAtm(atmLoginInfo.getAtmNumber());
+			User.currentUser=atm.getUser().getUsername();
+			boolean valid=atm.getAtmNumber().equals(atmLoginInfo.getAtmNumber()) 
+					&& atm.getAtmPin().equals(atmLoginInfo.getAtmPin());
+			if(!valid){
+				return"{\"error\":\"Invalid Atm Number/Atm Pin\"}";
+			}
+			return "{\"success\":\"true\",\"targetUrl\":\"atm\"}";
+		}catch(Exception e){
+			e.printStackTrace();
+			return"{\"error\":\"Invalid checkin!\"}";
+		}
+	}
 
 	@RequestMapping(value="login",method=RequestMethod.POST)
 	public @ResponseBody String validateLogin(@RequestBody String loginInfo){
@@ -39,8 +60,8 @@ public class LoginController {
 					return "{\"userType\":\"admin\",\"targetUrl\":\"admin\"}";
 				}return "{\"error\":\"Password Invalid\"}";
 			}
-			User validateUser= directoryService.getUser(loginUser.getUsername());
 			Account accountInfo= directoryService.getAccountFromUsername(loginUser.getUsername());
+			User validateUser= accountInfo.getUser();
 			if(validateUser !=null){
 				if(loginUser.getUsername().equalsIgnoreCase(validateUser.getUsername())){
 					if(loginUser.getPassword().equalsIgnoreCase(validateUser.getPassword())){

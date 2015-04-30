@@ -26,7 +26,7 @@ public class AccountDAOImpl implements AccountDAO {
 
 
 	public Account getAccount(Long id) {
-		return (Account)sessionFactory.getCurrentSession().load(Account.class, id);
+		return (Account)sessionFactory.getCurrentSession().get(Account.class, id);
 	}
 
 	public Account getAccountFromUsername(String username) {

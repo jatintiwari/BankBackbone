@@ -15,11 +15,10 @@ app.userRouter= Backbone.Router.extend({
 		window.txs= new app.Transactions();
 		$("#workspace").empty();
 		txs.fetch({
-			success:function(){
-				txs.sort();
+			success:function(model,response,options){
+				console.log(JSON.stringify(response));
 				this.trasactionsView= new app.TrasactionsView({collection:txs});
 				setTimeout(function(){
-				
 					$('#header').html(_.template($('#clientHeaderTemplate').html()));
 					$("#listTable").html(this.trasactionsView.render().el);
 					this.currentBalanceView= new app.CurrentBalanceView({collection:txs});

@@ -21,26 +21,6 @@ public class AtmController {
 
 	private ObjectMapper objectMapper;
 
-	@RequestMapping(value="atmLogin", method=RequestMethod.POST)
-	public @ResponseBody String atmLogin(@RequestBody String atmLogin){
-		objectMapper= new ObjectMapper();
-		try{
-			System.out.println(atmLogin);
-			Atm atmLoginInfo= objectMapper.readValue(atmLogin, Atm.class);	
-			Atm atm= directoryService.getAtm(atmLoginInfo.getAtmNumber());
-			User.currentUser=atm.getUser().getUsername();
-			boolean valid=atm.getAtmNumber().equals(atmLoginInfo.getAtmNumber()) 
-					&& atm.getAtmPin().equals(atmLoginInfo.getAtmPin());
-			if(!valid){
-				return"{\"error\":\"Invalid Atm Number/Atm Pin\"}";
-			}
-			return "{\"success\":\"true\",\"targetUrl\":\"atm\"}";
-		}catch(Exception e){
-			e.printStackTrace();
-			return"{\"error\":\"Invalid checkin!\"}";
-		}
-	}
-
 	@RequestMapping(value="atmTx",method=RequestMethod.POST)
 	public @ResponseBody String atmTx(@RequestBody String txInfo){
 		objectMapper= new ObjectMapper();

@@ -20,9 +20,8 @@ app.TxView= Backbone.View.extend({
 });
 
 app.TrasactionsView= Backbone.View.extend({
-//	tagName:'td',
+	tagName:'td',
 	initialize:function(){
-		
 	},
 	render:function(){
 		var _this= this;

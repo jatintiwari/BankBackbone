@@ -19,7 +19,6 @@ app.AtmRouter= Backbone.Router.extend({
 		var changePin = new app.ChangePin({model:new app.PinChange()});
 		txList.fetch({
 			success:function(model,response,options){
-				console.log(JSON.stringify(response));
 				app.atmTxListView= new app.AtmTxListView({collection:txList});
 			},
 			error:function(){

@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 		sessionFactory.getCurrentSession().saveOrUpdate(user);
 	}
 
-	public Collection<Transactions> getAllTx() {
+	public List<Transactions> getAllTx() {
 		Query query= sessionFactory.getCurrentSession().createQuery("from Transactions where user =:user");
 		query.setString("user", User.currentUser);
 		return query.list();

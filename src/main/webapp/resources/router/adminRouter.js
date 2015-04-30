@@ -54,3 +54,8 @@ app.Router= Backbone.Router.extend({
 		console.log(this.account.toJSON());
 	}
 });
+
+(function(){
+	window.router= new app.Router();
+	Backbone.history.start();
+	})();

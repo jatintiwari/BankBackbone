@@ -86,6 +86,7 @@ app.AtmTxListView= Backbone.View.extend({
 		return this;
 	},
 	addOne:function(tx){
+		console.log(JSON.stringify(tx));
 		app.atmTxView= new app.AtmTxView({model:tx});
 		this.$el.append(app.atmTxView.render().el);
 	},

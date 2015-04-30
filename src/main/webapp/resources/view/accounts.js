@@ -9,11 +9,9 @@ app.AccountView= Backbone.View.extend({
 		'click #edit':'display'
 	},
 	edit:function(){
-		console.log('edit');
 		router.navigate('accountsList/'+this.model.id+'/edit',true)
 	},
 	display:function(){
-		console.log('Display');
 		router.navigate('accountsList/'+this.model.id,true)
 	},
 	initialize:function(){
@@ -36,6 +34,7 @@ app.AccountsView= Backbone.View.extend({
 		return this;
 	},
 	addOne:function(account){
+		console.log(JSON.stringify(account));
 		var accountView= new app.AccountView({model:account});
 		this.$el.append(accountView.render().el);
 	}

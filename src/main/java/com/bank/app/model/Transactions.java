@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Transactions {
+public class Transactions implements Comparable<Transactions> {
 
 	
 	@Id
@@ -64,6 +64,9 @@ public class Transactions {
 	}
 	public void setCurrentBalance(Double currentBalance) {
 		this.currentBalance = currentBalance;
+	}
+	public int compareTo(Transactions o) {
+		return o.date.compareTo(this.date)*(-1);
 	}
 	
 }

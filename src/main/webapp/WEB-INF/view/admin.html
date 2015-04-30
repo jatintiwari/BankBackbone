@@ -11,10 +11,12 @@
 			<div style="display: inline" id="header"></div>
 		</div>
 		<div class="container"
-			style="width: 340px; height: 425px; float: left; display: inline-block; overflow: auto; margin-top: 20px; border-right: gray dotted thin;">
-			<section id="listName" style="font-size: 20px"></section>
+			style="width: 340px; height: 425px; float: left; display: inline; overflow: auto; margin-top: 20px; border-right: gray dotted thin;">
+			<div id="accountCount" style="font-size:20px"></div>
+			<div id="listName" style="font-size: 20px; border-bottom: 1px dotted gray; margin-top: 15px; margin-bottom: 1px;"></div>
 			<table class="table table-hover">
-				<thead></thead>
+				<thead>
+				</thead>
 				<tbody id="listTable" style="width: 340px;">
 				</tbody>
 			</table>
@@ -37,8 +39,17 @@
 
 	<script type="text/template" id="accountCountTemplate">
 
-<h4><span><a id="total" class="btn btn-lg">Total :<%=total%></a> </span><span><a id="saving" class="btn btn-lg">Saving 
-			:<%=saving%></a></span><span><a id="current" class="btn btn-lg">Current :<%=current%></a></span></h4>
+        <div style="font-size:20px" class="dropdown">
+          <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" id="accountType" style="width: 325px;height:45px">
+    			Account Type
+   				 <span class="caret"></span>
+  			</button>
+          <ul class="dropdown-menu" role="menu" style="width: 300px;">
+            <li><a id="total">Total: <%=total%></a></li>
+            <li><a id="saving">Savings: <%=saving%></a></li>
+            <li><a id="current">Current: <%=current%></a></li>
+          </ul>
+        </div>
 
 </script>
 
@@ -49,7 +60,7 @@
 </span>
 <a id="add" href="#add" class="btn btn-primary btn-lg" style="margin-bottom: 10px;margin-left: 50px;">Add</a>
 <a class="btn btn-warning btn-lg" onclick="logout()" style="margin-bottom: 10px;margin-left: 50px;float:right;">Log out</a>
-<div id="accountCount" style="display: inline-block;float: right;">
+
 </div>
 </script>
 
@@ -135,6 +146,7 @@
 	<script src="resources/lib/jquery.js"></script>
 	<script src="resources/lib/underscore.js"></script>
 	<script src="resources/lib/backbone.js"></script>
+	<script src="resources/js/bootstrap.js"></script>
 	<script src="resources/lib/serialize-object.js"></script>
 	<script src="resources/lib/backbone-validation-min.js"></script>
 	<script src="resources/lib/util.js"></script>

@@ -8,6 +8,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.util.Log4jConfigListener;
 
 public class WebAppInitializer implements WebApplicationInitializer {
 
@@ -18,7 +19,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
  
         // Manage the lifecycle of the root application context
         container.addListener(new ContextLoaderListener(rootContext));
- 
+        container.addListener(new Log4jConfigListener());
         // Create the dispatcher servlet's Spring application context
         //AnnotationConfigWebApplicationContext dispatcherServlet = new AnnotationConfigWebApplicationContext();
         //dispatcherServlet.register(MvcConfig.class);
